@@ -1,0 +1,62 @@
+{
+  "id": "20261031060542_dfd5f0",
+  "created_at": "2026-10-31T06:05:42",
+  "source": "Medical Report (Upload)",
+  "patient": {
+    "PatientName": "Rahul Verma",
+    "Age": 30,
+    "Gender": "Male",
+    "ALT": 20.0,
+    "AST": 18.0,
+    "Creatinine": 1.0,
+    "CRP": 2.0,
+    "PEG_Allergy": 0,
+    "ImmuneScore": 50,
+    "GeneticRisk": 30
+  },
+  "twin": {
+    "patient_details": {
+      "PatientName": "Rahul Verma",
+      "Age": 30,
+      "Gender": "Male",
+      "ALT": 20.0,
+      "AST": 18.0,
+      "Creatinine": 1.0,
+      "CRP": 2.0
+    },
+    "allergy_risk": {
+      "predicted_class": "Low",
+      "probabilities": {
+        "High": 0.0001,
+        "Low": 0.9813,
+        "Medium": 0.0187
+      }
+    },
+    "side_effect_risk": {
+      "predicted_class": "Low",
+      "probabilities": {
+        "High": 0.0,
+        "Low": 0.9959,
+        "Medium": 0.0041
+      }
+    },
+    "overall_risk_level": "Low",
+    "recommendation": "Vaccination Recommended",
+    "rsv_risk": {
+      "risk_level": "Low",
+      "recommendation": "Low",
+      "score": 0,
+      "max_score": 8,
+      "breakdown": {
+        "Age": 0,
+        "CRP": 0,
+        "ALT": 0,
+        "AST": 0
+      },
+      "precautions": []
+    }
+  },
+  "image_file": "20261031060542_dfd5f0_source.png",
+  "raw_ocr_text": "CityCare Diagnostics Lab\nPathology Report\nPatient Name : Rahul Verma\nAge/Sex :30Y/Male\nPatient ID : CC-2026-00698\nReferred By : Dr. S. lyer\nTest Results:\nALT (SGPT) :20 U/L (Ref: 7 - 56 U/L)\nAST (SGOT) :18U/L (Ref: 10 - 40 U/L)\nCreatinine :1.00 mg/dL (Ref: 0.3 - 1.2 mg/dL)\nCRP :2 mg/L (Ref: < 10 mg/L)\nClinical Notes:\nPatient asymptomatic, presented for routine screening.\nNasal swab negative for RSV (Respiratory Syncytial Virus).\nNo respiratory symptoms noted.\nReported On : 04-Aug-2026",
+  "downloads": []
+}

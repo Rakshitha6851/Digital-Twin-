@@ -1,0 +1,196 @@
+"""
+i18n.py
+---------
+Lightweight translations (English / Hindi / Kannada) for everything that
+appears in a Digital Twin RESULT: the on-screen result card and the
+downloadable PDF report.
+
+Design note: the Digital Twin dict and the saved history always keep the
+canonical ENGLISH values ("Low", "Vaccination Recommended", ...). Text is
+translated only at display time, so changing/adding a language never
+touches stored data or the ML pipeline.
+
+To add another language: add its code to LANGUAGES, then add a
+translation for it in every entry below (missing entries fall back to
+English automatically, so nothing breaks while you fill them in).
+"""
+
+from typing import List
+
+# Label shown in the selector -> language code
+LANGUAGES = {
+    "English": "en",
+    "हिन्दी (Hindi)": "hi",
+    "ಕನ್ನಡ (Kannada)": "kn",
+}
+DEFAULT_LANG = "en"
+
+# --------------------------------------------------------------------------
+# UI / report labels
+# --------------------------------------------------------------------------
+_STRINGS = {
+    "language": {"en": "Language", "hi": "भाषा", "kn": "ಭಾಷೆ"},
+    "digital_twin_profile": {"en": "Digital Twin Profile", "hi": "डिजिटल ट्विन प्रोफ़ाइल", "kn": "ಡಿಜಿಟಲ್ ಟ್ವಿನ್ ಪ್ರೊಫೈಲ್"},
+    "age": {"en": "Age", "hi": "आयु", "kn": "ವಯಸ್ಸು"},
+    "gender": {"en": "Gender", "hi": "लिंग", "kn": "ಲಿಂಗ"},
+    "name": {"en": "Name", "hi": "नाम", "kn": "ಹೆಸರು"},
+    "alt": {"en": "ALT", "hi": "ALT", "kn": "ALT"},
+    "ast": {"en": "AST", "hi": "AST", "kn": "AST"},
+    "creatinine": {"en": "Creatinine", "hi": "क्रिएटिनिन", "kn": "ಕ್ರಿಯಾಟಿನಿನ್"},
+    "crp": {"en": "CRP", "hi": "CRP", "kn": "CRP"},
+    "overall_risk_level": {"en": "Overall Risk Level", "hi": "कुल जोखिम स्तर", "kn": "ಒಟ್ಟು ಅಪಾಯದ ಮಟ್ಟ"},
+    "recommendation": {"en": "Recommendation", "hi": "सिफ़ारिश", "kn": "ಶಿಫಾರಸು"},
+    "download_report": {"en": "Download Report (PDF)", "hi": "रिपोर्ट डाउनलोड करें (PDF)", "kn": "ವರದಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ (PDF)"},
+    "rsv_title": {"en": "RSV Risk Screening", "hi": "RSV जोखिम जाँच", "kn": "RSV ಅಪಾಯ ತಪಾಸಣೆ"},
+    "rsv_risk_level": {"en": "RSV Risk Level", "hi": "RSV जोखिम स्तर", "kn": "RSV ಅಪಾಯದ ಮಟ್ಟ"},
+    "result": {"en": "Result", "hi": "परिणाम", "kn": "ಫಲಿತಾಂಶ"},
+    "precautions_title": {
+        "en": "Precautions to take before vaccination",
+        "hi": "टीकाकरण से पहले बरती जाने वाली सावधानियाँ",
+        "kn": "ಲಸಿಕೆ ಹಾಕುವ ಮೊದಲು ತೆಗೆದುಕೊಳ್ಳಬೇಕಾದ ಮುನ್ನೆಚ್ಚರಿಕೆಗಳು",
+    },
+    "risk_score": {"en": "Risk score", "hi": "जोखिम स्कोर", "kn": "ಅಪಾಯದ ಸ್ಕೋರ್"},
+    "based_on": {
+        "en": "based on Age, CRP, ALT, AST",
+        "hi": "आयु, CRP, ALT, AST पर आधारित",
+        "kn": "ವಯಸ್ಸು, CRP, ALT, AST ಆಧಾರಿತ",
+    },
+    "view_breakdown": {"en": "View RSV score breakdown", "hi": "RSV स्कोर का विवरण देखें", "kn": "RSV ಸ್ಕೋರ್ ವಿವರ ನೋಡಿ"},
+    "points": {"en": "points", "hi": "अंक", "kn": "ಅಂಕಗಳು"},
+    "allergy_risk": {"en": "Allergy Risk", "hi": "एलर्जी जोखिम", "kn": "ಅಲರ್ಜಿ ಅಪಾಯ"},
+    "side_effect_risk": {"en": "Side Effect Risk", "hi": "दुष्प्रभाव जोखिम", "kn": "ಅಡ್ಡ ಪರಿಣಾಮದ ಅಪಾಯ"},
+    "overall_risk": {"en": "Overall Risk", "hi": "कुल जोखिम", "kn": "ಒಟ್ಟು ಅಪಾಯ"},
+    "rsv_risk": {"en": "RSV Risk", "hi": "RSV जोखिम", "kn": "RSV ಅಪಾಯ"},
+    "risk_word": {"en": "Risk", "hi": "जोखिम", "kn": "ಅಪಾಯ"},
+    "prediction_probabilities": {"en": "Prediction Probabilities", "hi": "पूर्वानुमान की संभावनाएँ", "kn": "ಮುನ್ಸೂಚನೆಯ ಸಂಭವನೀಯತೆಗಳು"},
+    "allergy_probs": {"en": "Allergy Risk Probabilities", "hi": "एलर्जी जोखिम की संभावनाएँ", "kn": "ಅಲರ್ಜಿ ಅಪಾಯದ ಸಂಭವನೀಯತೆಗಳು"},
+    "side_effect_probs": {"en": "Side Effect Risk Probabilities", "hi": "दुष्प्रभाव जोखिम की संभावनाएँ", "kn": "ಅಡ್ಡ ಪರಿಣಾಮದ ಅಪಾಯದ ಸಂಭವನೀಯತೆಗಳು"},
+    "risk_gauges": {"en": "Risk Gauges", "hi": "जोखिम गेज", "kn": "ಅಪಾಯ ಮಾಪಕಗಳು"},
+    "risk_prob_comparison": {"en": "Risk Probability Comparison", "hi": "जोखिम संभावना की तुलना", "kn": "ಅಪಾಯದ ಸಂಭವನೀಯತೆ ಹೋಲಿಕೆ"},
+    "risk_level_axis": {"en": "Risk Level", "hi": "जोखिम स्तर", "kn": "ಅಪಾಯದ ಮಟ್ಟ"},
+    "probability_axis": {"en": "Probability", "hi": "संभावना", "kn": "ಸಂಭವನೀಯತೆ"},
+    "prediction_type": {"en": "Prediction Type", "hi": "पूर्वानुमान का प्रकार", "kn": "ಮುನ್ಸೂಚನೆಯ ಪ್ರಕಾರ"},
+    "confidence": {"en": "Confidence", "hi": "विश्वास स्तर", "kn": "ವಿಶ್ವಾಸ ಮಟ್ಟ"},
+    # ---- PDF-only strings ----
+    "pdf_title": {"en": "AI Digital Twin Report", "hi": "AI डिजिटल ट्विन रिपोर्ट", "kn": "AI ಡಿಜಿಟಲ್ ಟ್ವಿನ್ ವರದಿ"},
+    "pdf_subtitle": {
+        "en": "mRNA Vaccine Risk Simulation Platform",
+        "hi": "mRNA टीका जोखिम सिमुलेशन प्लेटफ़ॉर्म",
+        "kn": "mRNA ಲಸಿಕೆ ಅಪಾಯ ಸಿಮ್ಯುಲೇಶನ್ ವೇದಿಕೆ",
+    },
+    "generated_on": {"en": "Generated on", "hi": "तैयार करने की तिथि", "kn": "ತಯಾರಿಸಿದ ದಿನಾಂಕ"},
+    "patient_details": {"en": "Patient Details", "hi": "रोगी का विवरण", "kn": "ರೋಗಿಯ ವಿವರಗಳು"},
+    "vaccine_predictions": {"en": "mRNA Vaccine Risk Predictions", "hi": "mRNA टीका जोखिम पूर्वानुमान", "kn": "mRNA ಲಸಿಕೆ ಅಪಾಯ ಮುನ್ಸೂಚನೆಗಳು"},
+    "pdf_disclaimer": {
+        "en": "This report was generated by the Digital Twin platform using a synthetic dataset and "
+              "demonstration ML models, for educational purposes only. It is NOT medical advice.",
+        "hi": "यह रिपोर्ट Digital Twin प्लेटफ़ॉर्म द्वारा कृत्रिम (सिंथेटिक) डेटासेट और प्रदर्शन हेतु ML मॉडलों के "
+              "उपयोग से केवल शैक्षिक उद्देश्य के लिए तैयार की गई है। यह चिकित्सकीय सलाह नहीं है।",
+        "kn": "ಈ ವರದಿಯನ್ನು Digital Twin ವೇದಿಕೆಯು ಕೃತಕ (ಸಿಂಥೆಟಿಕ್) ಡೇಟಾಸೆಟ್ ಮತ್ತು ಪ್ರದರ್ಶನ ML ಮಾದರಿಗಳನ್ನು ಬಳಸಿ "
+              "ಕೇವಲ ಶೈಕ್ಷಣಿಕ ಉದ್ದೇಶಕ್ಕಾಗಿ ತಯಾರಿಸಿದೆ. ಇದು ವೈದ್ಯಕೀಯ ಸಲಹೆ ಅಲ್ಲ.",
+    },
+}
+
+# --------------------------------------------------------------------------
+# Value translations (keys are the canonical English values)
+# --------------------------------------------------------------------------
+_RISK_LEVELS = {
+    "Low": {"hi": "कम", "kn": "ಕಡಿಮೆ"},
+    "Medium": {"hi": "मध्यम", "kn": "ಮಧ್ಯಮ"},
+    "High": {"hi": "उच्च", "kn": "ಹೆಚ್ಚು"},
+}
+
+_GENDERS = {
+    "Male": {"hi": "पुरुष", "kn": "ಪುರುಷ"},
+    "Female": {"hi": "महिला", "kn": "ಮಹಿಳೆ"},
+}
+
+_RECOMMENDATIONS = {
+    "Vaccination Recommended": {
+        "hi": "टीकाकरण की सलाह दी जाती है",
+        "kn": "ಲಸಿಕೆ ಹಾಕಿಸಲು ಶಿಫಾರಸು ಮಾಡಲಾಗಿದೆ",
+    },
+    "Vaccinate Under Observation": {
+        "hi": "निगरानी में टीका लगाएँ",
+        "kn": "ನಿಗಾದಲ್ಲಿ ಲಸಿಕೆ ಹಾಕಿ",
+    },
+    "Specialist Consultation Required": {
+        "hi": "विशेषज्ञ से परामर्श आवश्यक है",
+        "kn": "ತಜ್ಞರ ಸಲಹೆ ಅಗತ್ಯ",
+    },
+    # RSV result wording (utils/rsv_risk.py)
+    "Consult Doctor": {"hi": "डॉक्टर से परामर्श करें", "kn": "ವೈದ್ಯರನ್ನು ಸಂಪರ್ಕಿಸಿ"},
+    "Precaution": {"hi": "सावधानी बरतें", "kn": "ಮುನ್ನೆಚ್ಚರಿಕೆ ವಹಿಸಿ"},
+    "Low": {"hi": "कम जोखिम", "kn": "ಕಡಿಮೆ ಅಪಾಯ"},
+}
+
+# Keyed by the exact English text in utils/rsv_risk.py::RSV_PRECAUTIONS
+_PRECAUTIONS = {
+    "Ensure the patient is symptom-free (no fever, cough, or wheeze) for at least 48 hours before vaccination.": {
+        "hi": "टीकाकरण से कम से कम 48 घंटे पहले तक रोगी में कोई लक्षण (बुखार, खाँसी या घरघराहट) नहीं होना चाहिए।",
+        "kn": "ಲಸಿಕೆಗೆ ಕನಿಷ್ಠ 48 ಗಂಟೆಗಳ ಮೊದಲಿನಿಂದ ರೋಗಿಗೆ ಜ್ವರ, ಕೆಮ್ಮು ಅಥವಾ ಉಬ್ಬಸದಂತಹ ಲಕ್ಷಣಗಳು ಇರಬಾರದು.",
+    },
+    "Recheck temperature on the day of vaccination — do not vaccinate if fever is present.": {
+        "hi": "टीकाकरण के दिन तापमान दोबारा जाँचें — बुखार हो तो टीका न लगाएँ।",
+        "kn": "ಲಸಿಕೆ ಹಾಕುವ ದಿನ ಮತ್ತೆ ದೇಹದ ಉಷ್ಣತೆ ಪರೀಕ್ಷಿಸಿ — ಜ್ವರ ಇದ್ದರೆ ಲಸಿಕೆ ಹಾಕಬೇಡಿ.",
+    },
+    "Keep the patient well-hydrated and rested in the days leading up to the appointment.": {
+        "hi": "अपॉइंटमेंट से पहले के दिनों में रोगी को भरपूर पानी पिलाएँ और आराम कराएँ।",
+        "kn": "ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗೂ ಮೊದಲಿನ ದಿನಗಳಲ್ಲಿ ರೋಗಿಗೆ ಸಾಕಷ್ಟು ನೀರು ಕುಡಿಸಿ ಮತ್ತು ವಿಶ್ರಾಂತಿ ನೀಡಿ.",
+    },
+    "Inform the vaccinating doctor about the recent RSV-related lab findings (CRP/ALT/AST).": {
+        "hi": "टीका लगाने वाले डॉक्टर को हाल की RSV-संबंधी लैब जाँच (CRP/ALT/AST) के बारे में बताएँ।",
+        "kn": "ಲಸಿಕೆ ಹಾಕುವ ವೈದ್ಯರಿಗೆ ಇತ್ತೀಚಿನ RSV ಸಂಬಂಧಿತ ಪ್ರಯೋಗಾಲಯ ಫಲಿತಾಂಶಗಳ (CRP/ALT/AST) ಬಗ್ಗೆ ತಿಳಿಸಿ.",
+    },
+    "Vaccinate only under medical observation, with monitoring for at least 30 minutes after the dose.": {
+        "hi": "टीका केवल चिकित्सकीय निगरानी में लगवाएँ और खुराक के बाद कम से कम 30 मिनट तक निगरानी रखें।",
+        "kn": "ವೈದ್ಯಕೀಯ ನಿಗಾದಲ್ಲಿ ಮಾತ್ರ ಲಸಿಕೆ ಹಾಕಿಸಿ ಮತ್ತು ಡೋಸ್ ನಂತರ ಕನಿಷ್ಠ 30 ನಿಮಿಷ ಗಮನಿಸಿ.",
+    },
+    "Watch for any allergic or adverse reaction after vaccination and seek care immediately if one occurs.": {
+        "hi": "टीके के बाद किसी भी एलर्जी या प्रतिकूल प्रतिक्रिया पर नज़र रखें और होने पर तुरंत चिकित्सा सहायता लें।",
+        "kn": "ಲಸಿಕೆಯ ನಂತರ ಅಲರ್ಜಿ ಅಥವಾ ಪ್ರತಿಕೂಲ ಪ್ರತಿಕ್ರಿಯೆ ಕಂಡುಬಂದರೆ ತಕ್ಷಣ ವೈದ್ಯಕೀಯ ಸಹಾಯ ಪಡೆಯಿರಿ.",
+    },
+}
+
+_RSV_FACTORS = {  # score-breakdown row names
+    "Age": "age", "CRP": "crp", "ALT": "alt", "AST": "ast",
+}
+
+
+def _lookup(table: dict, english_value, lang: str):
+    """Returns the translation of english_value, or the value itself when
+    the language is English / the entry is missing."""
+    if lang == "en" or english_value is None:
+        return english_value
+    return table.get(english_value, {}).get(lang, english_value)
+
+
+def t(key: str, lang: str = DEFAULT_LANG) -> str:
+    """Translates a UI/report label key. Falls back to English."""
+    entry = _STRINGS.get(key, {})
+    return entry.get(lang) or entry.get("en") or key
+
+
+def tr_risk(level: str, lang: str) -> str:
+    return _lookup(_RISK_LEVELS, level, lang)
+
+
+def tr_gender(gender: str, lang: str) -> str:
+    return _lookup(_GENDERS, gender, lang)
+
+
+def tr_recommendation(text: str, lang: str) -> str:
+    return _lookup(_RECOMMENDATIONS, text, lang)
+
+
+def tr_precautions(steps: List[str], lang: str) -> List[str]:
+    return [_lookup(_PRECAUTIONS, s, lang) for s in (steps or [])]
+
+
+def tr_rsv_factor(factor: str, lang: str) -> str:
+    key = _RSV_FACTORS.get(factor)
+    return t(key, lang) if key else factor
+
+
+def lang_code_from_label(label: str) -> str:
+    return LANGUAGES.get(label, DEFAULT_LANG)

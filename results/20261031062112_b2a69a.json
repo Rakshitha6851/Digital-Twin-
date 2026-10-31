@@ -1,0 +1,75 @@
+{
+  "id": "20261031062112_b2a69a",
+  "created_at": "2026-10-31T06:21:12",
+  "source": "Medical Report (Upload)",
+  "patient": {
+    "PatientName": "Isha Reddy",
+    "Age": 3,
+    "Gender": "Female",
+    "ALT": 70.0,
+    "AST": 20.0,
+    "Creatinine": 0.35,
+    "CRP": 20.0,
+    "PEG_Allergy": 0,
+    "ImmuneScore": 50,
+    "GeneticRisk": 30
+  },
+  "twin": {
+    "patient_details": {
+      "PatientName": "Isha Reddy",
+      "Age": 3,
+      "Gender": "Female",
+      "ALT": 70.0,
+      "AST": 20.0,
+      "Creatinine": 0.35,
+      "CRP": 20.0
+    },
+    "allergy_risk": {
+      "predicted_class": "Low",
+      "probabilities": {
+        "High": 0.0012,
+        "Low": 0.8187,
+        "Medium": 0.1801
+      }
+    },
+    "side_effect_risk": {
+      "predicted_class": "Medium",
+      "probabilities": {
+        "High": 0.005,
+        "Low": 0.1896,
+        "Medium": 0.8054
+      }
+    },
+    "overall_risk_level": "Medium",
+    "recommendation": "Vaccinate Under Observation",
+    "rsv_risk": {
+      "risk_level": "Medium",
+      "recommendation": "Precaution",
+      "score": 3,
+      "max_score": 8,
+      "breakdown": {
+        "Age": 1,
+        "CRP": 1,
+        "ALT": 1,
+        "AST": 0
+      },
+      "precautions": [
+        "Ensure the patient is symptom-free (no fever, cough, or wheeze) for at least 48 hours before vaccination.",
+        "Recheck temperature on the day of vaccination — do not vaccinate if fever is present.",
+        "Keep the patient well-hydrated and rested in the days leading up to the appointment.",
+        "Inform the vaccinating doctor about the recent RSV-related lab findings (CRP/ALT/AST).",
+        "Vaccinate only under medical observation, with monitoring for at least 30 minutes after the dose.",
+        "Watch for any allergic or adverse reaction after vaccination and seek care immediately if one occurs."
+      ]
+    }
+  },
+  "image_file": "20261031062112_b2a69a_source.png",
+  "raw_ocr_text": "CityCare Diagnostics Lab\nPathology Report\nPatient Name : Isha Reddy\nAge/Sex :3Y/Female\nPatient ID : CC-2026-00512\nReferred By : Dr. K. Menon\nTest Results:\nALT (SGPT) :70U/L ~ (Ref: 7 - 56 U/L)\nAST (SGOT) :20 U/L (Ref: 10 - 40 U/L)\nCreatinine :0.35 mg/dL (Ref: 0.3 - 1.2 mg/dL)\nCRP : 20 mg/L (Ref: < 10 mg/L)\nClinical Notes:\nPatient had mild fever and cough 5 days ago, now improving.\nNasal swab positive for RSV (Respiratory Syncytial Virus).\nCurrently afebrile; advised follow-up before vaccination.\nReported On : 04-Aug-2026",
+  "downloads": [
+    {
+      "lang": "en",
+      "file": "20261031062112_b2a69a_en_20261031062126.pdf",
+      "at": "2026-10-31T06:21:26"
+    }
+  ]
+}
